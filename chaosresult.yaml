@@ -1,0 +1,22 @@
+# Jinja template for ChaosResult
+---
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosResult
+metadata:
+    name: "aws-az-chaos"
+    namespace: "litmus"
+    labels: {'name': 'aws-az-chaos', 'chaosUID': ''}
+spec:
+    engine: ""
+    experiment: "aws-az-chaos"
+    instance: ""
+status:
+    experimentStatus: 
+        phase: "Completed"
+        verdict: "Pass"
+        probeSuccessPercentage: "100"
+        failStep: "N/A"
+    history:
+        passedRuns: 1
+        failedRuns: 0
+        stoppedRuns: 0

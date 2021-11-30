@@ -1,0 +1,32 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: aws-az-chaos
+spec:
+  # It can be active/stop
+  engineState: 'active'
+  #ex. values: ns1:name=percona,ns2:run=nginx
+  auxiliaryAppInfo: ''
+  chaosServiceAccount: litmus-admin
+  # It can be delete/retain
+  jobCleanUpPolicy: 'delete'
+  experiments:
+    - name: aws-az-chaos
+      spec:
+        components:
+          env:
+            - name: TOTAL_CHAOS_DURATION
+              value: '30'
+            - name: CHAOS_INTERVAL
+              value: '10'
+            - name: LOAD_BALANCER_NAME
+              value: "test-lb-classic"
+            - name: LOAD_BALANCER_ZONES
+              value: "us-east-2a,us-east-2c"
+            - name: LOAD_BALANCERNAME_ARN
+              value: "na"
+            - name: AWS_SHARED_CREDENTIALS_FILE
+              value: "/tmp/cloud_config.yml"
+            - name: AWS_REGIONS
+              value: "us-east-2"
+              

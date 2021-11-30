@@ -1,0 +1,80 @@
+apiVersion: litmuschaos.io/v1alpha1
+description:
+  message: |
+    it execs inside target pods to run the chaos inject commands, waits for the chaos duration and reverts the chaos
+kind: ChaosExperiment
+metadata:
+  name: aws-az-chaos
+  labels:
+    name: aws-az-chaos
+    app.kubernetes.io/part-of: litmus
+    app.kubernetes.io/component: chaosexperiment
+    app.kubernetes.io/version: latest
+spec:
+  definition:
+    scope: Namespaced
+    permissions:
+      - apiGroups: 
+          - "" 
+          - "batch" 
+          - "apps" 
+          - "litmuschaos.io" 
+        resources: 
+          - "jobs" 
+          - "pods" 
+          - "pods/log" 
+          - "events" 
+          - "deployments" 
+          - "replicasets" 
+          - "pods/exec" 
+          - "chaosengines" 
+          - "chaosexperiments" 
+          - "chaosresults" 
+        verbs: 
+          - "create" 
+          - "list" 
+          - "get" 
+          - "patch" 
+          - "update" 
+          - "delete" 
+          - "deletecollection" 
+    image: "kaleoum/py-runner:az"
+    imagePullPolicy: Always
+    args:
+    - -c
+    - python3 -u experiment -name aws-az-chaos
+    command:
+    - /bin/bash
+    env:
+
+    - name: TOTAL_CHAOS_DURATION
+      value: '' 
+
+    - name: CHAOS_INTERVAL
+      value: ''
+
+    - name: LIB
+      value: ''
+    - name: LOAD_BALANCER_NAME
+      value: 'test-lb-classic'
+    - name: LOAD_BALANCER_ZONES
+      value: 'us-east-2a,us-east-2c'
+
+    - name: LOAD_BALANCERNAME_ARN
+      value: 'na' 
+    - name: AWS_SHARED_CREDENTIALS_FILE
+      value: "/tmp/cloud_config.yml"
+    
+    - name: AWS_REGIONS
+      value: "us-east-2"
+    - name: RAMP_TIME
+      value: ''
+      
+    labels:
+      name: aws-az-chaos
+      app.kubernetes.io/part-of: litmus
+      app.kubernetes.io/component: experiment-job
+      app.kubernetes.io/version: latest 
+    secrets:
+    - name: cloud-secret
+      mountPath: /tmp/

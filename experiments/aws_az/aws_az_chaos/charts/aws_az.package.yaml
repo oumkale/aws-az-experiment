@@ -1,0 +1,5 @@
+packageName: aws-az
+experiments:
+  - name: aws-az-chaos
+    CSV: aws-az-chaos.chartserviceversion.yaml
+    desc: "aws-az-chaos"
